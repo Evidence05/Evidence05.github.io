@@ -424,150 +424,6 @@
     .project-link:hover { opacity: 0.7; }
     .project-link::after { content: ' →'; }
 
-    /* Currently building */
-    .building-intro {
-      font-size: 1.05rem;
-      line-height: 1.8;
-      color: var(--text-muted);
-      max-width: 640px;
-      margin-bottom: 40px;
-    }
-
-    .building-intro strong { color: var(--accent); }
-
-    .building-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      margin-bottom: 40px;
-    }
-
-    .building-card {
-      border: 1px dashed var(--border);
-      background: var(--surface);
-      padding: 28px;
-      position: relative;
-      overflow: hidden;
-      transition: border-color 0.2s;
-    }
-
-    .building-card:hover { border-color: rgba(0,217,255,0.25); }
-
-    .building-card .status-dot {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--accent2);
-      letter-spacing: 0.15em;
-      margin-bottom: 14px;
-    }
-
-    .status-dot::before {
-      content: '';
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--accent2);
-      animation: blink 1.5s ease-in-out infinite;
-    }
-
-    .status-dot.planned { color: var(--text-muted); }
-    .status-dot.planned::before {
-      background: var(--text-muted);
-      animation: none;
-    }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.2; }
-    }
-
-    .building-card h3 {
-      font-size: 1.05rem;
-      color: var(--heading);
-      margin-bottom: 10px;
-    }
-
-    .building-card p {
-      font-size: 0.88rem;
-      line-height: 1.65;
-      color: var(--text-muted);
-    }
-
-    .progress-note {
-      border: 1px solid var(--border);
-      background: rgba(0,217,255,0.03);
-      padding: 20px 28px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .progress-note-icon {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 1.2rem;
-      color: var(--accent);
-      flex-shrink: 0;
-    }
-
-    .progress-note p {
-      font-size: 0.88rem;
-      line-height: 1.6;
-      color: var(--text-muted);
-    }
-
-    .progress-note a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    .progress-note a:hover { text-decoration: underline; }
-
-    /* RESEARCH */
-    .research-list { display: flex; flex-direction: column; gap: 16px; }
-
-    .research-item {
-      border: 1px solid var(--border);
-      background: var(--surface);
-      padding: 24px 28px;
-      display: flex;
-      align-items: center;
-      gap: 24px;
-      transition: border-color 0.2s;
-    }
-
-    .research-item:hover { border-color: rgba(0,217,255,0.2); }
-
-    .research-icon {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 1.5rem;
-      color: var(--accent);
-      opacity: 0.6;
-      flex-shrink: 0;
-      width: 40px;
-      text-align: center;
-    }
-
-    .research-content h3 { font-size: 1rem; color: var(--heading); margin-bottom: 4px; }
-    .research-content p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; }
-
-    .research-status {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 0.7rem;
-      padding: 4px 10px;
-      border: 1px solid var(--accent);
-      color: var(--accent);
-      margin-left: auto;
-      flex-shrink: 0;
-      letter-spacing: 0.1em;
-    }
-
-    .research-status.soon {
-      border-color: var(--border);
-      color: var(--text-muted);
-    }
-
     /* CONTACT */
     .contact-grid {
       display: grid;
@@ -741,35 +597,35 @@
   <section class="section" id="projects">
     <div class="section-header">
       <span class="section-num">02</span>
-      <h2>Currently Building</h2>
+      <h2>Projects</h2>
       <div class="section-line"></div>
     </div>
-    <p class="building-intro">I'm in my cybersecurity journey at UTS and actively working on my first projects. Below is what I'm exploring and building right now — this section will evolve into a full project portfolio as I ship things worth sharing.</p>
-    <div class="building-grid">
-      <div class="building-card">
-        <div class="status-dot">IN PROGRESS</div>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-tag">// THREAT INTELLIGENCE</div>
+        <h3>MITRE ATT&CK Threat Intelligence Dashboard</h3>
+        <p>An interactive dashboard mapping real-world threat actor techniques to the MITRE ATT&CK framework. Covers adversary groups including OceanLotus/APT32 and APT39, with visual navigator layers and defensive analysis.</p>
+        <a href="https://github.com/Evidence05/Threat-Intelligence-Dashboard/tree/main" class="project-link" target="_blank">View on GitHub</a>
+        <a href="https://evidence05.github.io/Threat-Intelligence-Dashboard/" class="project-link" target="_blank" style="margin-left: 20px;">Live Site</a>
+      </div>
+      <div class="project-card">
+        <div class="project-tag">// SECURITY TOOLING</div>
+        <h3>Python Password Audit Tool</h3>
+        <p>A Python-based tool for auditing password security — checking for weak patterns, common passwords, and policy compliance. Built to demonstrate practical scripting for defensive security workflows.</p>
+        <a href="https://github.com/Evidence05/password-auditor" class="project-link" target="_blank">View on GitHub</a>
+      </div>
+      <div class="project-card" style="border-style: dashed; opacity: 0.75;">
+        <div class="project-tag">// HOME LAB · IN PROGRESS</div>
         <h3>Home Lab Setup</h3>
         <p>Setting up a local security lab with Kali Linux and VirtualBox to practice offensive and defensive techniques in a controlled environment. Documenting findings as I go.</p>
+        <span class="project-link" style="cursor: default; opacity: 0.5;">GitHub coming soon →</span>
       </div>
-      <div class="building-card">
-        <div class="status-dot">IN PROGRESS</div>
-        <h3>CTF Writeups</h3>
-        <p>Working through beginner CTF challenges on platforms like PicoCTF and TryHackMe. Planning to publish structured write-ups explaining my approach and what I learned.</p>
+      <div class="project-card" style="border-style: dashed; opacity: 0.75;">
+        <div class="project-tag">// AI · RAG · IN PROGRESS</div>
+        <h3>CourseBot — Local AI Study Assistant</h3>
+        <p>A fully local AI assistant built on a RAG architecture, ingesting UTS lecture notes and course content. Stack: Ollama for local LLM inference, LlamaIndex for document indexing, and ChromaDB as the vector store — no cloud dependencies or third-party APIs.</p>
+        <span class="project-link" style="cursor: default; opacity: 0.5;">GitHub coming soon →</span>
       </div>
-      <div class="building-card">
-        <div class="status-dot planned">PLANNED</div>
-        <h3>Cloud Security Threat Model</h3>
-        <p>A documented threat model for a sample cloud-native web app — covering attack surface analysis, trust boundaries, and mitigation recommendations using the STRIDE framework.</p>
-      </div>
-      <div class="building-card">
-        <div class="status-dot planned">PLANNED</div>
-        <h3>AI Governance Research Note</h3>
-        <p>A short research paper examining current regulatory approaches to AI in high-stakes environments, and the gaps that leave critical infrastructure exposed.</p>
-      </div>
-    </div>
-    <div class="progress-note">
-      <div class="progress-note-icon">⬡</div>
-      <p>Projects will be published here and on <a href="https://github.com/Evidence05" target="_blank">github.com/Evidence05</a> as they're completed. Follow along to see progress in real time — everything starts somewhere.</p>
     </div>
   </section>
 
@@ -782,27 +638,28 @@
       <div class="section-line"></div>
     </div>
     <div class="contact-grid">
-      <a href="mailto:yourname@gmail.com" class="contact-card">
-      <div class="contact-icon">@</div>
-      <div class="contact-info">
-      <div class="contact-label">EMAIL</div>
-      <div class="contact-value">ahsadulla05@gmail.com</div>
-      </div>
-        </a>
+      <a href="mailto:ahsadulla05@gmail.com" class="contact-card">
+        <div class="contact-icon">@</div>
+        <div class="contact-info">
+          <div class="contact-label">EMAIL</div>
+          <div class="contact-value">ahsadulla05@gmail.com</div>
+        </div>
+      </a>
       <a href="https://github.com/Evidence05" target="_blank" class="contact-card">
         <div class="contact-icon">&lt;/&gt;</div>
         <div class="contact-info">
           <div class="contact-label">GITHUB</div>
           <div class="contact-value">github.com/Evidence05</div>
         </div>
-    <a href="https://linkedin.com/in/ali-h-sadulla-a1332928a" target="_blank" class="contact-card">
-  <div class="contact-icon">in</div>
-  <div class="contact-info">
-    <div class="contact-label">LINKEDIN</div>
-    <div class="contact-value">linkedin.com/in/ali-h-sadulla-a1332928a</div>
-  </div>
-</a>
-      <a href="https://github.com/Evidence05" target="_blank" class="contact-card">
+      </a>
+      <a href="https://linkedin.com/in/ali-h-sadulla-a1332928a" target="_blank" class="contact-card">
+        <div class="contact-icon">in</div>
+        <div class="contact-info">
+          <div class="contact-label">LINKEDIN</div>
+          <div class="contact-value">linkedin.com/in/ali-h-sadulla-a1332928a</div>
+        </div>
+      </a>
+      <a href="https://www.uts.edu.au" target="_blank" class="contact-card">
         <div class="contact-icon">★</div>
         <div class="contact-info">
           <div class="contact-label">UTS</div>
@@ -813,4 +670,9 @@
   </section>
 
   <footer>
-    <div class="footer-text">© 2025 Ali (Evidence05) — <span>Cybersecurity
+    <div class="footer-text">© 2026 Ali Sadulla — <span>Cybersecurity @ UTS</span></div>
+    <div class="footer-text">evidence05.github.io</div>
+  </footer>
+
+</body>
+</html>
