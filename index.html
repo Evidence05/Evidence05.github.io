@@ -1,678 +1,1033 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ali Sadulla | Cybersecurity Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #080c10;
-      --surface: #0d1117;
-      --border: #1e2d3d;
-      --accent: #00d9ff;
-      --accent2: #00ff9d;
-      --text: #c9d1d9;
-      --text-muted: #6e7d8f;
-      --heading: #e6edf3;
-      --glow: 0 0 20px rgba(0, 217, 255, 0.2);
-    }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'Syne', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    /* Scanline overlay */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(0,0,0,0.03) 2px,
-        rgba(0,0,0,0.03) 4px
-      );
-      pointer-events: none;
-      z-index: 9999;
-    }
-
-    /* Animated grid background */
-    .bg-grid {
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(0,217,255,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,217,255,0.04) 1px, transparent 1px);
-      background-size: 60px 60px;
-      z-index: 0;
-      animation: gridShift 20s linear infinite;
-    }
-
-    @keyframes gridShift {
-      0% { background-position: 0 0; }
-      100% { background-position: 60px 60px; }
-    }
-
-    /* NAV */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 18px 48px;
-      background: rgba(8, 12, 16, 0.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .nav-logo {
-      font-family: 'Share Tech Mono', monospace;
-      color: var(--accent);
-      font-size: 1rem;
-      letter-spacing: 0.1em;
-    }
-
-    .nav-logo span { color: var(--accent2); }
-
-    .nav-links { display: flex; gap: 36px; }
-
-    .nav-links a {
-      font-family: 'Share Tech Mono', monospace;
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.85rem;
-      letter-spacing: 0.08em;
-      transition: color 0.2s;
-      position: relative;
-    }
-
-    .nav-links a::before {
-      content: '// ';
-      color: var(--border);
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover { color: var(--accent); }
-    .nav-links a:hover::before { color: var(--accent); }
-
-    /* HERO */
-    .hero {
-      position: relative;
-      z-index: 1;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      padding: 120px 48px 80px;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .hero-content { max-width: 700px; }
-
-    .hero-tag {
-      font-family: 'Share Tech Mono', monospace;
-      color: var(--accent);
-      font-size: 0.8rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      margin-bottom: 24px;
-      opacity: 0;
-      animation: fadeUp 0.6s 0.2s forwards;
-    }
-
-    .hero-tag::before { content: '> '; }
-
-    .hero h1 {
-      font-size: clamp(3rem, 8vw, 5.5rem);
-      font-weight: 800;
-      color: var(--heading);
-      line-height: 1.05;
-      margin-bottom: 8px;
-      opacity: 0;
-      animation: fadeUp 0.6s 0.35s forwards;
-    }
-
-    .hero h1 .handle {
-      color: transparent;
-      -webkit-text-stroke: 1px var(--accent);
-    }
-
-    .hero-sub {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 1rem;
-      color: var(--accent2);
-      margin-bottom: 28px;
-      opacity: 0;
-      animation: fadeUp 0.6s 0.5s forwards;
-    }
-
-    .hero p {
-      font-size: 1.15rem;
-      line-height: 1.75;
-      color: var(--text-muted);
-      max-width: 580px;
-      opacity: 0;
-      animation: fadeUp 0.6s 0.65s forwards;
-    }
-
-    .hero-cta {
-      display: flex;
-      gap: 16px;
-      margin-top: 40px;
-      opacity: 0;
-      animation: fadeUp 0.6s 0.8s forwards;
-    }
-
-    .btn {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 0.85rem;
-      letter-spacing: 0.1em;
-      padding: 14px 28px;
-      border: 1px solid var(--accent);
-      color: var(--accent);
-      text-decoration: none;
-      transition: all 0.2s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .btn::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: var(--accent);
-      transform: translateX(-100%);
-      transition: transform 0.2s;
-      z-index: -1;
-    }
-
-    .btn:hover { color: var(--bg); }
-    .btn:hover::before { transform: translateX(0); }
-
-    .btn-ghost {
-      border-color: var(--border);
-      color: var(--text-muted);
-    }
-
-    .btn-ghost::before { background: var(--border); }
-    .btn-ghost:hover { color: var(--heading); }
-
-    /* Floating badge */
-    .hero-badge {
-      position: absolute;
-      right: 48px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 220px;
-      height: 220px;
-      border: 1px solid var(--border);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 8px;
-      opacity: 0;
-      animation: fadeIn 1s 1s forwards;
-    }
-
-    .hero-badge::before {
-      content: '';
-      position: absolute;
-      inset: -20px;
-      border: 1px solid rgba(0,217,255,0.1);
-      border-radius: 50%;
-      animation: pulse 3s ease-in-out infinite;
-    }
-
-    .hero-badge::after {
-      content: '';
-      position: absolute;
-      inset: -40px;
-      border: 1px solid rgba(0,217,255,0.05);
-      border-radius: 50%;
-      animation: pulse 3s ease-in-out 1s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.05); opacity: 0.5; }
-    }
-
-    .badge-icon {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 2.5rem;
-      color: var(--accent);
-    }
-
-    .badge-text {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 0.65rem;
-      color: var(--text-muted);
-      text-align: center;
-      letter-spacing: 0.15em;
-    }
-
-    /* SECTIONS */
-    .section {
-      position: relative;
-      z-index: 1;
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 80px 48px;
-    }
-
-    .section-header {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      margin-bottom: 48px;
-    }
-
-    .section-num {
-      font-family: 'Share Tech Mono', monospace;
-      color: var(--accent);
-      font-size: 0.8rem;
-      opacity: 0.6;
-    }
-
-    .section h2 {
-      font-size: 2rem;
-      font-weight: 800;
-      color: var(--heading);
-    }
-
-    .section-line {
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
-
-    /* ABOUT */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 32px;
-    }
-
-    .about-text {
-      font-size: 1.05rem;
-      line-height: 1.8;
-      color: var(--text-muted);
-      grid-column: 1 / 2;
-    }
-
-    .about-text strong { color: var(--accent); font-weight: 700; }
-
-    .skills-panel {
-      border: 1px solid var(--border);
-      padding: 28px;
-      background: var(--surface);
-    }
-
-    .skills-panel h3 {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 0.75rem;
-      color: var(--accent);
-      letter-spacing: 0.15em;
-      margin-bottom: 20px;
-    }
-
-    .skill-item {
-      margin-bottom: 14px;
-    }
-
-    .skill-label {
-      display: flex;
-      justify-content: space-between;
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-    }
-
-    .skill-bar {
-      height: 2px;
-      background: var(--border);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .skill-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      animation: fillBar 1.5s ease-out forwards;
-      transform-origin: left;
-      transform: scaleX(0);
-    }
-
-    @keyframes fillBar {
-      to { transform: scaleX(1); }
-    }
-
-    /* PROJECTS */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-
-    .project-card {
-      border: 1px solid var(--border);
-      background: var(--surface);
-      padding: 28px;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .project-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 3px;
-      height: 0;
-      background: linear-gradient(to bottom, var(--accent), var(--accent2));
-      transition: height 0.3s;
-    }
-
-    .project-card:hover { border-color: rgba(0,217,255,0.3); box-shadow: var(--glow); }
-    .project-card:hover::before { height: 100%; }
-
-    .project-tag {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--accent2);
-      letter-spacing: 0.15em;
-      margin-bottom: 14px;
-    }
-
-    .project-card h3 {
-      font-size: 1.15rem;
-      color: var(--heading);
-      margin-bottom: 10px;
-    }
-
-    .project-card p {
-      font-size: 0.9rem;
-      line-height: 1.65;
-      color: var(--text-muted);
-      margin-bottom: 20px;
-    }
-
-    .project-link {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 0.78rem;
-      color: var(--accent);
-      text-decoration: none;
-      letter-spacing: 0.1em;
-      transition: opacity 0.2s;
-    }
-
-    .project-link:hover { opacity: 0.7; }
-    .project-link::after { content: ' →'; }
-
-    /* CONTACT */
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-
-    .contact-card {
-      border: 1px solid var(--border);
-      background: var(--surface);
-      padding: 24px 28px;
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      text-decoration: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-
-    .contact-card:hover {
-      border-color: rgba(0,217,255,0.3);
-      box-shadow: var(--glow);
-    }
-
-    .contact-icon {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 1.2rem;
-      color: var(--accent);
-      width: 36px;
-      text-align: center;
-      flex-shrink: 0;
-    }
-
-    .contact-info { flex: 1; }
-    .contact-label {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      letter-spacing: 0.15em;
-      margin-bottom: 4px;
-    }
-
-    .contact-value {
-      font-size: 0.95rem;
-      color: var(--heading);
-    }
-
-    /* FOOTER */
-    footer {
-      position: relative;
-      z-index: 1;
-      border-top: 1px solid var(--border);
-      padding: 28px 48px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .footer-text {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 0.75rem;
-      color: var(--text-muted);
-    }
-
-    .footer-text span { color: var(--accent2); }
-
-    /* ANIMATIONS */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes fadeIn {
-      to { opacity: 1; }
-    }
-
-    /* Dividers */
-    .divider {
-      max-width: 1100px;
-      margin: 0 auto 0;
-      padding: 0 48px;
-    }
-
-    .divider hr { border: none; border-top: 1px solid var(--border); }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      nav { padding: 16px 24px; }
-      .nav-links { gap: 20px; }
-      .hero { padding: 120px 24px 60px; }
-      .hero-badge { display: none; }
-      .section { padding: 60px 24px; }
-      .about-grid, .projects-grid, .contact-grid { grid-template-columns: 1fr; }
-      footer { padding: 24px; flex-direction: column; gap: 8px; text-align: center; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SADULLA, ALI — Case File E05 · Threat Intelligence & Detection</title>
+<meta name="description" content="Case file E05 — Ali Sadulla. Final-year UTS cybersecurity student: threat intelligence, detection engineering, cloud security. Cleared for hire, November 2026.">
+<meta property="og:title" content="SADULLA, ALI — Case File E05">
+<meta property="og:description" content="Threat intelligence · detection · the habit of noticing. A dossier, compiled by the subject.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%23B3331D'/%3E%3Ctext x='32' y='43' font-family='monospace' font-size='27' font-weight='bold' fill='%23EDE8DC' text-anchor='middle'%3E05%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Caveat:wght@600&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   EVIDENCE//05 — design tokens
+   A materials palette: file stock, iron-gall ink, rubber-stamp
+   vermillion, ballpoint blue, pencil graphite, marker yellow.
+   ============================================================ */
+:root{
+  --paper:        #EDE8DC;   /* file stock */
+  --paper-deep:   #E2DBC9;   /* folder undertone */
+  --sheet:        #FBF8EF;   /* fresher sheet, for scraps */
+  --ink:          #17140E;   /* iron-gall black */
+  --graphite:     #6A6253;   /* pencil annotations */
+  --stamp:        #B3331D;   /* rubber-stamp vermillion */
+  --stamp-ink:    #93290F;   /* same ink, pressed harder (small text) */
+  --ballpoint:    #234E9D;   /* bic blue — links only */
+  --marker:       rgba(245,213,71,.65);  /* highlighter */
+  --marker-weak:  rgba(245,213,71,.42);
+  --f-disp: 'Archivo', 'Helvetica Neue', sans-serif;
+  --f-mono: 'Courier Prime', 'Courier New', monospace;
+  --f-hand: 'Caveat', cursive;
+}
+
+*,*::before,*::after{ box-sizing:border-box; margin:0; padding:0 }
+
+html{
+  scroll-behavior:smooth;
+  scroll-padding-top:86px;
+}
+
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--f-mono);
+  font-size:1.02rem;
+  line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+/* paper grain */
+body::after{
+  content:'';
+  position:fixed; inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  opacity:.05;
+  mix-blend-mode:multiply;
+  pointer-events:none;
+  z-index:999;
+}
+
+::selection{ background:var(--stamp); color:var(--paper) }
+
+a{ color:var(--ballpoint); text-decoration:underline; text-decoration-thickness:1.5px; text-underline-offset:3px }
+a:hover{ background:var(--marker-weak) }
+
+:focus-visible{ outline:2.5px dashed var(--stamp); outline-offset:3px }
+
+.skip{
+  position:absolute; left:-9999px; top:0;
+  background:var(--ink); color:var(--paper);
+  padding:10px 18px; z-index:200;
+  font:700 .8rem var(--f-mono); letter-spacing:.1em;
+}
+.skip:focus{ left:12px; top:12px }
+
+/* ============================================================
+   Top bar — folder tabs
+   ============================================================ */
+.topbar{
+  position:fixed; inset:0 0 auto 0; z-index:60;
+  background:rgba(237,232,220,.92);
+  backdrop-filter:blur(7px);
+  -webkit-backdrop-filter:blur(7px);
+  border-bottom:2px solid var(--ink);
+}
+.topbar-in{
+  max-width:1180px; margin:0 auto;
+  padding:12px 28px 0;
+  display:flex; align-items:flex-end; justify-content:space-between; gap:18px;
+}
+.wordmark{
+  font:900 .92rem var(--f-disp);
+  letter-spacing:.16em;
+  padding-bottom:12px;
+  white-space:nowrap;
+  color:var(--ink); text-decoration:none;
+}
+.wordmark:hover{ background:none; color:var(--stamp-ink) }
+.tabs{ display:flex; gap:6px; overflow-x:auto; scrollbar-width:none }
+.tabs::-webkit-scrollbar{ display:none }
+.tab{
+  flex:none;
+  font:700 .64rem var(--f-mono);
+  letter-spacing:.14em; text-transform:uppercase;
+  color:var(--ink); text-decoration:none;
+  padding:8px 14px 10px;
+  border:1.5px solid var(--ink); border-bottom:none;
+  border-radius:7px 7px 0 0;
+  background:var(--paper-deep);
+  transform:translateY(2px);
+  transition:background .15s, color .15s;
+}
+.tab:hover{ background:var(--ink); color:var(--paper) }
+
+/* ============================================================
+   Document body — ledger grid with red margin rule
+   ============================================================ */
+.doc{
+  position:relative;
+  max-width:1180px;
+  margin:0 auto;
+  padding:0 28px;
+}
+.doc::before{               /* the double red margin rule */
+  content:'';
+  position:absolute; top:0; bottom:0; left:216px;
+  width:5px;
+  border-left:1.5px solid rgba(179,51,29,.5);
+  border-right:1.5px solid rgba(179,51,29,.5);
+  pointer-events:none;
+}
+
+.sec{
+  display:grid;
+  grid-template-columns:160px minmax(0,1fr);
+  column-gap:64px;
+  padding:96px 0;
+}
+.sec + .sec{ border-top:1.5px dashed rgba(23,20,14,.28) }  /* page perforation */
+.sec > *{ grid-column:2 }
+
+.sec-head{
+  grid-column:1 / -1;
+  display:flex; align-items:baseline; flex-wrap:wrap; gap:18px;
+  margin-bottom:48px;
+}
+.exh{
+  font:700 .68rem var(--f-mono);
+  letter-spacing:.3em; text-transform:uppercase;
+  color:var(--stamp-ink);
+  border:1.5px solid var(--stamp-ink);
+  padding:5px 11px;
+  white-space:nowrap;
+}
+h2{
+  font:900 clamp(2rem,4.6vw,3rem)/1 var(--f-disp);
+  letter-spacing:-.015em; text-transform:uppercase;
+}
+.ref{
+  margin-left:auto;
+  font:.66rem var(--f-mono);
+  letter-spacing:.2em;
+  color:var(--graphite);
+  white-space:nowrap;
+}
+
+.kicker{
+  font:.8rem var(--f-mono);
+  color:var(--graphite);
+  margin-bottom:40px;
+  max-width:62ch;
+}
+
+/* pencil notes in the margin */
+.mnote{
+  grid-column:1;
+  justify-self:end; align-self:start;
+  text-align:right;
+  font:600 1.18rem/1.3 var(--f-hand);
+  color:var(--graphite);
+  transform:rotate(-2.5deg);
+  max-width:155px;
+  padding-top:6px;
+}
+
+.hl{
+  background:linear-gradient(180deg, transparent 10%, var(--marker) 10% 88%, transparent 88%);
+  padding:0 .12em;
+}
+
+/* ============================================================
+   Redactions — tap to declassify
+   ============================================================ */
+.redact{
+  font:inherit; font-style:inherit;
+  border:0; padding:0 .2em;
+  background:var(--ink); color:transparent;
+  cursor:pointer; border-radius:1px;
+  box-decoration-break:clone;
+  -webkit-box-decoration-break:clone;
+  transition:background .45s ease, color .45s ease;
+  text-align:inherit;
+}
+.redact:hover{ background:#060503 }
+.redact.open{ background:var(--marker-weak); color:inherit; cursor:text }
+
+/* ============================================================
+   Rubber stamps
+   ============================================================ */
+.stamp{
+  display:inline-block;
+  font:900 1.06rem/1.25 var(--f-disp);
+  letter-spacing:.14em; text-transform:uppercase;
+  color:var(--stamp);
+  border:3px solid var(--stamp);
+  padding:12px 18px;
+  transform:rotate(-7deg);
+  mix-blend-mode:multiply;
+  opacity:0;
+}
+.stamp small{
+  display:block;
+  font:700 .58rem var(--f-disp);
+  letter-spacing:.26em;
+  margin-top:4px;
+}
+.stamp.in{ animation:stampIn .5s cubic-bezier(.2,1.4,.36,1) forwards }
+.stamp-sm{
+  display:inline-block;
+  font:900 .66rem/1 var(--f-disp);
+  letter-spacing:.18em; text-transform:uppercase;
+  color:var(--stamp);
+  border:2px solid var(--stamp);
+  padding:5px 8px;
+  transform:rotate(-4deg) translateY(-2px);
+  mix-blend-mode:multiply;
+  margin-left:10px;
+  vertical-align:middle;
+}
+@keyframes stampIn{
+  0%   { opacity:0; transform:rotate(-7deg) scale(2.3) }
+  62%  { opacity:1; transform:rotate(-7deg) scale(.94) }
+  100% { opacity:.92; transform:rotate(-7deg) scale(1) }
+}
+
+/* ============================================================
+   Hero — the file cover
+   ============================================================ */
+.hero{ padding:178px 0 100px; position:relative }
+.h-strip{
+  display:flex; flex-wrap:wrap; gap:8px 20px;
+  font:700 .66rem var(--f-mono);
+  letter-spacing:.22em; text-transform:uppercase;
+  color:var(--stamp-ink);
+  margin-bottom:36px;
+}
+h1{
+  font:900 clamp(3.2rem,10.5vw,7rem)/.95 var(--f-disp);
+  letter-spacing:-.02em; text-transform:uppercase;
+  margin-bottom:26px;
+}
+h1 span{ display:block }
+.typeline{
+  font:1.04rem var(--f-mono);
+  min-height:1.9em;
+  margin-bottom:40px;
+}
+.typeline::after{
+  content:'\258C';
+  color:var(--stamp);
+  animation:blink 1.05s steps(2,start) infinite;
+}
+.typeline.done::after{ animation:none; opacity:0 }
+@keyframes blink{ to{ visibility:hidden } }
+
+.dossier{
+  border:1.5px solid var(--ink);
+  background:rgba(255,255,255,.34);
+  padding:24px 28px;
+  max-width:580px;
+  display:grid;
+  grid-template-columns:max-content 1fr;
+  gap:12px 24px;
+  font-size:.95rem;
+}
+.dossier dt{
+  font:700 .68rem var(--f-mono);
+  letter-spacing:.2em; text-transform:uppercase;
+  color:var(--stamp-ink);
+  padding-top:.4em;
+}
+.dossier dd{ margin:0 }
+.hint{
+  font:.76rem var(--f-mono);
+  color:var(--graphite);
+  margin-top:14px;
+}
+.cta-row{ display:flex; flex-wrap:wrap; gap:14px; margin-top:42px }
+.btn{
+  font:700 .72rem var(--f-mono);
+  letter-spacing:.2em; text-transform:uppercase;
+  text-decoration:none;
+  padding:14px 24px;
+  border:1.5px solid var(--ink);
+  color:var(--ink); background:transparent;
+  transition:background .18s, color .18s;
+}
+.btn:hover{ background:var(--ink); color:var(--paper) }
+.btn-solid{ background:var(--ink); color:var(--paper) }
+.btn-solid:hover{ background:transparent; color:var(--ink) }
+.hero-stamp{ position:absolute; right:24px; top:196px }
+.scroll-cue{
+  margin-top:70px;
+  font:700 .66rem var(--f-mono);
+  letter-spacing:.26em; text-transform:uppercase;
+  color:var(--graphite);
+}
+
+/* ============================================================
+   Exhibit A — observed activity log
+   ============================================================ */
+.entry{
+  display:grid;
+  grid-template-columns:104px minmax(0,1fr);
+  gap:6px 32px;
+  margin-bottom:40px;
+}
+.e-date{
+  font:700 .7rem var(--f-mono);
+  letter-spacing:.16em; text-transform:uppercase;
+  color:var(--stamp-ink);
+  padding-top:.5em;
+}
+.entry h3{
+  font:800 1.04rem var(--f-disp);
+  letter-spacing:.06em; text-transform:uppercase;
+  margin-bottom:8px;
+}
+.entry p{ max-width:60ch }
+
+/* taped first-person scraps */
+.scrap{
+  position:relative;
+  background:var(--sheet);
+  border:1px solid rgba(23,20,14,.18);
+  box-shadow:0 10px 26px rgba(23,20,14,.10);
+  padding:32px 36px;
+  margin:54px 0 60px;
+  max-width:600px;
+  transform:rotate(-.7deg);
+  font-style:italic;
+  font-size:1.12rem;
+  line-height:1.8;
+}
+.scrap::before,
+.scrap::after{
+  content:'';
+  position:absolute; top:-13px;
+  width:92px; height:26px;
+  background:rgba(214,201,164,.55);
+  border:1px solid rgba(23,20,14,.08);
+}
+.scrap::before{ left:26px;  transform:rotate(-3deg) }
+.scrap::after { right:26px; transform:rotate(2.5deg) }
+.scrap cite{
+  display:block; margin-top:16px;
+  font:700 .64rem var(--f-mono); font-style:normal;
+  letter-spacing:.26em; color:var(--graphite);
+}
+
+/* ============================================================
+   Exhibit B — capability matrix
+   ============================================================ */
+.matrix-wrap{ overflow-x:auto; padding-bottom:6px }
+.matrix{
+  display:grid;
+  grid-template-columns:repeat(6, minmax(168px,1fr));
+  gap:14px;
+  min-width:1060px;
+}
+.mcol h3{
+  font:700 .66rem var(--f-mono);
+  letter-spacing:.26em; text-transform:uppercase;
+  color:var(--stamp-ink);
+  padding-bottom:8px; margin-bottom:12px;
+  border-bottom:1.5px solid var(--stamp-ink);
+}
+.mcell{
+  display:block; width:100%;
+  text-align:left;
+  font:700 .8rem/1.35 var(--f-disp);
+  letter-spacing:.04em;
+  padding:12px;
+  border:1.5px solid var(--ink);
+  background:transparent; color:var(--ink);
+  cursor:pointer;
+  margin-bottom:10px;
+  transition:background .15s, color .15s;
+}
+.mcell:hover, .mcell:focus-visible, .mcell.active{
+  background:var(--ink); color:var(--paper);
+}
+.proofline{
+  margin-top:20px;
+  font:.88rem var(--f-mono);
+  border-left:3px solid var(--stamp);
+  background:rgba(179,51,29,.06);
+  padding:12px 18px;
+  min-height:3.4em;
+  max-width:760px;
+}
+.swipe-hint{ display:none; font:.72rem var(--f-mono); color:var(--graphite); margin-top:8px }
+
+.clear-row{ margin-top:48px }
+.clear-row h3{
+  font:700 .68rem var(--f-mono);
+  letter-spacing:.26em; text-transform:uppercase;
+  color:var(--graphite);
+  margin-bottom:18px;
+}
+.chips{ display:flex; flex-wrap:wrap; gap:14px 16px }
+.chip{
+  position:relative;
+  font:700 .78rem var(--f-mono);
+  letter-spacing:.06em;
+  border:1.5px solid var(--ink);
+  background:rgba(255,255,255,.3);
+  padding:12px 16px;
+}
+.chip i{
+  position:absolute; right:-13px; top:-13px;
+  font:900 .5rem var(--f-disp); font-style:normal;
+  letter-spacing:.12em;
+  color:var(--stamp);
+  border:2px solid var(--stamp);
+  background:var(--paper);
+  padding:3px 6px;
+  transform:rotate(8deg);
+}
+
+/* ============================================================
+   Exhibit C — field work cards
+   ============================================================ */
+.cards{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0,1fr));
+  gap:22px;
+}
+.xcard{
+  border:1.5px solid var(--ink);
+  background:rgba(255,255,255,.32);
+  padding:28px;
+  display:flex; flex-direction:column; gap:14px;
+  transition:transform .25s ease, box-shadow .25s ease;
+}
+.xcard:hover{
+  transform:translateY(-5px) rotate(-.4deg);
+  box-shadow:0 18px 36px rgba(23,20,14,.14);
+}
+.xtag{
+  align-self:flex-start;
+  font:700 .6rem var(--f-mono);
+  letter-spacing:.24em; text-transform:uppercase;
+  color:var(--stamp-ink);
+  border:1.5px solid var(--stamp-ink);
+  padding:4px 9px;
+}
+.xcard h3{
+  font:900 1.22rem var(--f-disp);
+  letter-spacing:.01em; text-transform:uppercase;
+}
+.xcard p{ font-size:.95rem }
+.fp{ font-style:italic }
+.xlinks{ margin-top:auto; display:flex; flex-wrap:wrap; gap:8px 22px; font-size:.85rem; padding-top:6px }
+.sealed{ border-style:dashed; background:transparent }
+.sealed .xtag{ color:var(--graphite); border-color:var(--graphite) }
+
+/* ============================================================
+   Annexe — personal effects
+   ============================================================ */
+.item{
+  display:grid;
+  grid-template-columns:92px minmax(0,1fr);
+  gap:26px;
+  padding:17px 0;
+  border-bottom:1px dashed rgba(23,20,14,.32);
+  max-width:780px;
+}
+.item:first-of-type{ border-top:1px dashed rgba(23,20,14,.32) }
+.item-no{
+  font:700 .68rem var(--f-mono);
+  letter-spacing:.22em; text-transform:uppercase;
+  color:var(--stamp-ink);
+  padding-top:.45em;
+}
+
+/* ============================================================
+   Disposition — contact
+   ============================================================ */
+.crows{ margin:36px 0 44px; max-width:680px }
+.crow{
+  display:grid;
+  grid-template-columns:110px 1fr;
+  gap:24px;
+  padding:15px 0;
+  border-bottom:1px dashed rgba(23,20,14,.32);
+}
+.crow:first-of-type{ border-top:1px dashed rgba(23,20,14,.32) }
+.clabel{
+  font:700 .68rem var(--f-mono);
+  letter-spacing:.22em; text-transform:uppercase;
+  color:var(--stamp-ink);
+  padding-top:.45em;
+}
+.stampbtn{
+  display:inline-block;
+  font:900 1.04rem var(--f-disp);
+  letter-spacing:.14em; text-transform:uppercase;
+  color:var(--stamp);
+  border:3px solid var(--stamp);
+  background:transparent;
+  padding:17px 30px;
+  text-decoration:none;
+  transform:rotate(-1.2deg);
+  transition:background .15s, color .15s, transform .15s;
+}
+.stampbtn:hover{
+  background:var(--stamp); color:var(--paper);
+  transform:rotate(-1.2deg) scale(1.015);
+}
+.sign{
+  margin-top:50px;
+  font:.8rem var(--f-mono);
+  color:var(--graphite);
+  max-width:60ch;
+}
+
+/* ============================================================
+   Footer
+   ============================================================ */
+footer{ border-top:2px solid var(--ink) }
+.f-in{
+  max-width:1180px; margin:0 auto;
+  padding:26px 28px;
+  display:flex; flex-wrap:wrap; gap:10px 32px;
+  justify-content:space-between;
+  font:700 .68rem var(--f-mono);
+  letter-spacing:.14em; text-transform:uppercase;
+  color:var(--graphite);
+}
+
+/* ============================================================
+   Motion
+   ============================================================ */
+.rv{ opacity:0; transform:translateY(18px) }
+.rv.in{ opacity:1; transform:none; transition:opacity .7s ease, transform .7s ease }
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width:920px){
+  .doc::before{ display:none }
+  .sec{ grid-template-columns:1fr; column-gap:0 }
+  .sec > *{ grid-column:1 }
+  .mnote{
+    justify-self:start; text-align:left;
+    transform:rotate(-1.6deg);
+    max-width:none;
+    padding:0; margin:2px 0 16px;
+  }
+  .hero-stamp{ position:static; display:inline-block; margin-top:34px }
+  .hero{ padding-top:150px }
+  .swipe-hint{ display:block }
+}
+@media (max-width:760px){
+  .cards{ grid-template-columns:1fr }
+}
+@media (max-width:600px){
+  body{ font-size:.98rem }
+  .entry{ grid-template-columns:1fr; gap:2px 0; margin-bottom:34px }
+  .e-date{ padding-top:0; margin-bottom:4px }
+  .dossier{ grid-template-columns:1fr; gap:2px }
+  .dossier dt{ padding-top:.9em }
+  .dossier dt:first-child{ padding-top:0 }
+  .item{ grid-template-columns:1fr; gap:2px }
+  .item-no{ padding-top:0 }
+  .crow{ grid-template-columns:1fr; gap:2px }
+  .clabel{ padding-top:0 }
+  .scrap{ padding:26px 22px }
+  .topbar-in{ padding:10px 18px 0 }
+  .doc{ padding:0 18px }
+}
+
+/* ============================================================
+   Reduced motion & print
+   ============================================================ */
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior:auto }
+  *,*::before,*::after{ animation:none !important; transition:none !important }
+  .rv{ opacity:1; transform:none }
+  .stamp{ opacity:.92 }
+  .typeline::after{ content:'' }
+}
+@media print{
+  .topbar, .scroll-cue, body::after{ display:none }
+  body{ background:#fff }
+  .redact{ background:transparent; color:inherit }
+  .stamp, .stamp-sm{ opacity:.92 }
+  .rv{ opacity:1; transform:none }
+}
+</style>
 </head>
 <body>
+<!-- Reading the source? Correct instinct. The console has more. — E05 -->
+<a class="skip" href="#main">Skip to content</a>
 
-  <div class="bg-grid"></div>
-
-  <nav>
-    <div class="nav-logo">Ali <span>//</span> Sadulla</div>
-    <div class="nav-links">
-      <a href="#about">about</a>
-      <a href="#projects">projects</a>
-      <a href="#contact">contact</a>
-    </div>
-  </nav>
-
-  <div class="hero">
-    <div class="hero-content">
-      <div class="hero-tag">Cybersecurity Portfolio</div>
-      <h1>Ali <span class="handle">Sadulla</span></h1>
-      <div class="hero-sub">$ UTS | Cybersecurity</div>
-      <p>Cybersecurity student at the University of Technology Sydney exploring how technology, policy, and security intersect to build a safer digital future — with a focus on cloud infrastructure and the regulation of AI in adversarial environments.</p>
-      <div class="hero-cta">
-        <a href="#projects" class="btn">View Projects</a>
-        <a href="https://github.com/Evidence05" target="_blank" class="btn btn-ghost">GitHub Profile</a>
-      </div>
-    </div>
-    <div class="hero-badge">
-      <div class="badge-icon">⬡</div>
-      <div class="badge-text">CYBERSECURITY<br>RESEARCHER</div>
-    </div>
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="wordmark" href="#top">EVIDENCE//05</a>
+    <nav class="tabs" aria-label="File sections">
+      <a class="tab" href="#exhibit-a">Exhibit A</a>
+      <a class="tab" href="#exhibit-b">Exhibit B</a>
+      <a class="tab" href="#exhibit-c">Exhibit C</a>
+      <a class="tab" href="#annexe">Annexe</a>
+      <a class="tab" href="#disposition">Contact</a>
+    </nav>
   </div>
+</header>
 
-  <div class="divider"><hr></div>
+<main id="main" class="doc">
 
-  <section class="section" id="about">
-    <div class="section-header">
-      <span class="section-num">01</span>
-      <h2>About Me</h2>
-      <div class="section-line"></div>
-    </div>
-    <div class="about-grid">
-      <div class="about-text">
-        <p>I'm Ali, a cybersecurity student at UTS passionate about the intersection of <strong>cloud security</strong>, <strong>AI regulation</strong>, and evolving cyber threats. I explore how technical controls and policy frameworks can work in tandem to build resilient digital systems.</p>
-        <br>
-        <p>My work spans threat modelling, cloud infrastructure security, and the governance challenges that emerge as AI becomes embedded in critical systems. I'm driven by the belief that the best security professionals are both technical and policy-literate.</p>
+  <!-- ================= FILE COVER ================= -->
+  <section class="sec hero" id="top" aria-label="File cover">
+    <p class="mnote" aria-hidden="true">yes, he filed himself.</p>
+    <div>
+      <p class="h-strip"><span>Case file E05-26</span> <span>Classification: public release</span> <span>Compiled: Sydney, 2026</span></p>
+      <h1>Sadulla,<span>Ali Hussain</span></h1>
+      <p class="typeline" id="typeline" data-text="Threat intelligence &middot; detection &middot; the habit of noticing."></p>
+
+      <dl class="dossier rv">
+        <dt>Subject</dt><dd>Final-year cybersecurity student, UTS Sydney.</dd>
+        <dt>Focus</dt><dd>Threat intel, detection engineering, cloud security.</dd>
+        <dt>Last seen</dt><dd>Eastern Creek, keeping a warehouse WMS honest.</dd>
+        <dt>Disposition</dt><dd>Notices broken patterns. <button class="redact" type="button">Cannot switch it off. Has stopped apologising for it.</button></dd>
+      </dl>
+      <p class="hint">&#9492; black bars declassify on tap &mdash; there are more in this file.</p>
+
+      <div class="cta-row">
+        <a class="btn btn-solid" href="#exhibit-a">Open Exhibit A &darr;</a>
+        <a class="btn" href="https://github.com/Evidence05" target="_blank" rel="noopener">GitHub &nearr;</a>
       </div>
-      <div class="skills-panel">
-        <h3>// FOCUS AREAS</h3>
-        <div class="skill-item">
-          <div class="skill-label"><span>Cloud Security</span><span>●●●●○</span></div>
-          <div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div>
+
+      <p class="scroll-cue" aria-hidden="true">&#9660; Exhibit A &mdash; observed activity</p>
+    </div>
+    <div class="hero-stamp" aria-label="Cleared for hire — graduating November 2026">
+      <span class="stamp">Cleared for hire<small>Graduating &middot; Nov 2026</small></span>
+    </div>
+  </section>
+
+  <!-- ================= EXHIBIT A ================= -->
+  <section class="sec" id="exhibit-a" aria-labelledby="ha">
+    <div class="sec-head">
+      <span class="exh">Exhibit A</span>
+      <h2 id="ha">Observed Activity</h2>
+      <span class="ref">REF: E05/A &middot; CHRONOLOGICAL</span>
+    </div>
+
+    <p class="kicker">Reconstructed from public records, commit logs, and the subject&rsquo;s own admissions.</p>
+
+    <p class="mnote rv" aria-hidden="true">origin story: a chicken shop. respect.</p>
+    <article class="entry rv">
+      <p class="e-date">Nov 2021</p>
+      <div>
+        <h3>First contact</h3>
+        <p>El-Jannah, Granville. Friday-peak chicken-shop service is an unforgiving introduction to systems under load. Subject restructures the cash transaction flow; average waits drop roughly 30%. First documented instance of the pattern: <span class="hl">see a queue, rebuild it.</span></p>
+      </div>
+    </article>
+
+    <article class="entry rv">
+      <p class="e-date">Feb 2024</p>
+      <div>
+        <h3>Enrolment</h3>
+        <p>Begins the Bachelor of Cybersecurity at UTS. Runs merchandise operations for the UTS Muslim Society on the side for a year &mdash; suppliers, inventory, campaign-day sales. Logistics turns out to be transferable.</p>
+      </div>
+    </article>
+
+    <article class="entry rv">
+      <p class="e-date">Jul 2024</p>
+      <div>
+        <h3>Embedded &mdash; DSV, Eastern Creek</h3>
+        <p>First-line for the Warehouse Management System and everything on the floor that scans, beeps, or refuses to boot before dawn: triage, escalation, imaging replacement hardware, provisioning accounts, onboarding crews through peak.</p>
+      </div>
+    </article>
+
+    <p class="mnote rv" aria-hidden="true">verified &#10003;</p>
+    <article class="entry rv">
+      <p class="e-date">2024&ndash;25</p>
+      <div>
+        <h3>The 8%</h3>
+        <p>Unprompted, begins charting recurring pick-and-pack errors at the WMS layer. Locates the failure points in the verification workflow, takes the findings to supervisors, process tightens. Error rate falls 8%. <span class="hl">No ticket ever asked for this.</span></p>
+      </div>
+    </article>
+
+    <blockquote class="scrap rv">
+      &ldquo;The job was keeping scanners alive. The habit was asking why they kept dying. I&rsquo;ve stopped pretending those are different skills.&rdquo;
+      <cite>&mdash; Subject statement</cite>
+    </blockquote>
+
+    <article class="entry rv">
+      <p class="e-date">2025</p>
+      <div>
+        <h3>Tooling appears</h3>
+        <p>Ships a password audit tool in pure Python: five hash families with auto-detection, a six-criteria strength scorer, colour terminal output, HTML and CSV reporting. Zero external dependencies, on principle.</p>
+      </div>
+    </article>
+
+    <p class="mnote rv" aria-hidden="true">his idea of fun, apparently</p>
+    <article class="entry rv">
+      <p class="e-date">2025&ndash;26</p>
+      <div>
+        <h3>The hunts</h3>
+        <p>Coursework turns adversarial. Splunk hunts against credential dumping (T1003.001) and PowerShell abuse (T1059.001); Elastic Stack and Fleet stood up from scratch; two days inside simulated APT29 telemetry, hypothesis to finding.</p>
+      </div>
+    </article>
+
+    <article class="entry rv">
+      <p class="e-date">2026</p>
+      <div>
+        <h3>Dashboard goes live</h3>
+        <p>Publishes the MITRE ATT&amp;CK Threat Intelligence Dashboard: APT32 and APT39 profiled, mapped and severity-tagged &mdash; formatted like an internal CTI brief, not a class assignment.</p>
+      </div>
+    </article>
+
+    <article class="entry rv">
+      <p class="e-date">2026</p>
+      <div>
+        <h3>Five people, one build</h3>
+        <p>Cambridge Oceania EduX Hackathon. Elenchus: an AI agent on the Cogniti platform that teaches secondary students to catch their own logical fallacies. Subject owned the prompt architecture and the fallacy taxonomy underneath it.</p>
+      </div>
+    </article>
+
+    <blockquote class="scrap rv">
+      &ldquo;Threat hunting clicked because it&rsquo;s the warehouse floor with better telemetry &mdash; something in the noise is wrong, and it&rsquo;s your job to say what, with evidence.&rdquo;
+      <cite>&mdash; Subject statement</cite>
+    </blockquote>
+
+    <p class="mnote rv" aria-hidden="true">see you out there &rarr;</p>
+    <article class="entry rv">
+      <p class="e-date">Nov 2026</p>
+      <div>
+        <h3>Graduation <span class="stamp-sm">Projected</span></h3>
+        <p>Bachelor of Cybersecurity, complete. Four certifications in flight. Status: interviewing for graduate roles that involve finding things.</p>
+      </div>
+    </article>
+  </section>
+
+  <!-- ================= EXHIBIT B ================= -->
+  <section class="sec" id="exhibit-b" aria-labelledby="hb">
+    <div class="sec-head">
+      <span class="exh">Exhibit B</span>
+      <h2 id="hb">Tradecraft</h2>
+      <span class="ref">REF: E05/B &middot; CAPABILITY MATRIX</span>
+    </div>
+
+    <p class="mnote rv" aria-hidden="true">percentages of what, exactly?</p>
+    <p class="kicker">Capabilities filed as a coverage matrix &mdash; the way the subject actually thinks about them. An earlier version of this site had skill bars. We don&rsquo;t talk about the skill bars.</p>
+
+    <div class="matrix-wrap rv">
+      <div class="matrix">
+        <div class="mcol">
+          <h3>Collect</h3>
+          <button class="mcell" type="button" data-proof="MITRE ATT&amp;CK — APT32 and APT39 mapped end-to-end, with Navigator layers including a combined view.">MITRE ATT&amp;CK</button>
+          <button class="mcell" type="button" data-proof="CTI documentation — group profiles and TTP write-ups structured for analyst handoff, not homework.">CTI documentation</button>
+          <button class="mcell" type="button" data-proof="IOC triage — severity-tagged indicator tables feeding the live dashboard.">IOC triage</button>
         </div>
-        <div class="skill-item">
-          <div class="skill-label"><span>AI / ML Governance</span><span>●●●●○</span></div>
-          <div class="skill-bar"><div class="skill-fill" style="width:78%; animation-delay:0.1s"></div></div>
+        <div class="mcol">
+          <h3>Detect</h3>
+          <button class="mcell" type="button" data-proof="Splunk / SPL — hunted T1003.001 LSASS dumping and T1059.001 PowerShell abuse in Sysmon-rich data.">Splunk &middot; SPL</button>
+          <button class="mcell" type="button" data-proof="Elastic Stack + Fleet — stack and agents stood up from scratch for CTIIR coursework.">Elastic + Fleet</button>
+          <button class="mcell" type="button" data-proof="Log analysis — Windows event and Sysmon triage. Pattern first, alert second.">Log analysis</button>
         </div>
-        <div class="skill-item">
-          <div class="skill-label"><span>Threat Modelling</span><span>●●●○○</span></div>
-          <div class="skill-bar"><div class="skill-fill" style="width:62%; animation-delay:0.2s"></div></div>
+        <div class="mcol">
+          <h3>Hunt</h3>
+          <button class="mcell" type="button" data-proof="Hypothesis-driven hunting — question, query, documented finding. Two days inside simulated APT29 telemetry.">Hypothesis-driven</button>
+          <button class="mcell" type="button" data-proof="Credential theft — T1003.001 taken from technique notes to working detection queries.">Credential theft</button>
+          <button class="mcell" type="button" data-proof="Living-off-the-land — PowerShell (T1059.001) hunts across lab datasets.">LOLBin abuse</button>
         </div>
-        <div class="skill-item">
-          <div class="skill-label"><span>Cyber Policy</span><span>●●●●○</span></div>
-          <div class="skill-bar"><div class="skill-fill" style="width:75%; animation-delay:0.3s"></div></div>
+        <div class="mcol">
+          <h3>Emulate</h3>
+          <button class="mcell" type="button" data-proof="Nmap / Wireshark — reconnaissance and capture analysis across contained lab networks.">Nmap &middot; Wireshark</button>
+          <button class="mcell" type="button" data-proof="Burp Suite — web application testing in UTS lab environments.">Burp Suite</button>
+          <button class="mcell" type="button" data-proof="Metasploit — exploitation fundamentals, strictly inside the sandbox.">Metasploit</button>
+          <button class="mcell" type="button" data-proof="Hash analysis — the auditor cracks MD5, SHA-1/256/512 and NTLM with length-based auto-detection.">Hash analysis</button>
         </div>
-        <div class="skill-item">
-          <div class="skill-label"><span>Network Security</span><span>●●●○○</span></div>
-          <div class="skill-bar"><div class="skill-fill" style="width:58%; animation-delay:0.4s"></div></div>
+        <div class="mcol">
+          <h3>Build</h3>
+          <button class="mcell" type="button" data-proof="Python — the password auditor: standard library only, by choice.">Python</button>
+          <button class="mcell" type="button" data-proof="JavaScript / Node — the dashboard front-end. Vanilla JS, zero frameworks.">JavaScript &middot; Node</button>
+          <button class="mcell" type="button" data-proof="SQL, Bash and Git — daily drivers across labs, projects and the warehouse.">SQL &middot; Bash &middot; Git</button>
         </div>
+        <div class="mcol">
+          <h3>Harden</h3>
+          <button class="mcell" type="button" data-proof="AWS IAM — least-privilege role design, CloudTrail-aware by habit.">AWS IAM</button>
+          <button class="mcell" type="button" data-proof="Cloud architecture — UTS deployment: VPC, RDS MySQL, Elastic Beanstalk, auto-scaling.">Cloud architecture</button>
+          <button class="mcell" type="button" data-proof="Linux operations — Kali and Ubuntu daily; Docker, VirtualBox and VMware for disposable labs.">Linux ops</button>
+        </div>
+      </div>
+    </div>
+    <p class="swipe-hint" aria-hidden="true">&larr; swipe the matrix &rarr;</p>
+    <p class="proofline" id="proofline" aria-live="polite">&#9656; Hover or tap any cell for provenance.</p>
+
+    <div class="clear-row rv">
+      <h3>Pending clearances</h3>
+      <div class="chips">
+        <span class="chip">CompTIA Security+<i>In&nbsp;prog.</i></span>
+        <span class="chip">CCNA<i>In&nbsp;prog.</i></span>
+        <span class="chip">Cisco CCST Cybersecurity<i>In&nbsp;prog.</i></span>
+        <span class="chip">AWS Cloud Practitioner<i>In&nbsp;prog.</i></span>
       </div>
     </div>
   </section>
 
-  <div class="divider"><hr></div>
-
-  <section class="section" id="projects">
-    <div class="section-header">
-      <span class="section-num">02</span>
-      <h2>Projects</h2>
-      <div class="section-line"></div>
+  <!-- ================= EXHIBIT C ================= -->
+  <section class="sec" id="exhibit-c" aria-labelledby="hc">
+    <div class="sec-head">
+      <span class="exh">Exhibit C</span>
+      <h2 id="hc">Field Work</h2>
+      <span class="ref">REF: E05/C &middot; RECOVERED ARTEFACTS</span>
     </div>
-    <div class="projects-grid">
-      <div class="project-card">
-        <div class="project-tag">// THREAT INTELLIGENCE</div>
-        <h3>MITRE ATT&CK Threat Intelligence Dashboard</h3>
-        <p>An interactive dashboard mapping real-world threat actor techniques to the MITRE ATT&CK framework. Covers adversary groups including OceanLotus/APT32 and APT39, with visual navigator layers and defensive analysis.</p>
-        <a href="https://github.com/Evidence05/Threat-Intelligence-Dashboard/tree/main" class="project-link" target="_blank">View on GitHub</a>
-        <a href="https://evidence05.github.io/Threat-Intelligence-Dashboard/" class="project-link" target="_blank" style="margin-left: 20px;">Live Site</a>
+
+    <p class="kicker">Everything below exists, runs, and can be inspected. Links open the originals.</p>
+
+    <div class="cards">
+      <article class="xcard rv">
+        <span class="xtag">Exhibit C-1 &middot; Threat intel</span>
+        <h3>ATT&amp;CK Threat Intelligence Dashboard</h3>
+        <p>Browser-native CTI dashboard profiling APT32 (OceanLotus) and APT39 (Chafer): TTP matrices, per-group technique breakdowns, tactic coverage, severity-tagged IOC tables. Vanilla JS &mdash; no frameworks, no excuses.</p>
+        <p class="fp">&mdash; Built the way I&rsquo;d brief a team, not the way a tutorial would.</p>
+        <div class="xlinks">
+          <a href="https://evidence05.github.io/Threat-Intelligence-Dashboard/" target="_blank" rel="noopener">Live site &nearr;</a>
+          <a href="https://github.com/Evidence05/Threat-Intelligence-Dashboard" target="_blank" rel="noopener">Source &nearr;</a>
+        </div>
+      </article>
+
+      <article class="xcard rv">
+        <span class="xtag">Exhibit C-2 &middot; Tooling</span>
+        <h3>Password Audit Tool</h3>
+        <p>Command-line dictionary attack and strength audit across MD5, SHA-1/256/512 and NTLM, with length-based auto-detection, a six-criteria scorer, live progress stats, dark HTML reports and CSV export.</p>
+        <p class="fp">&mdash; The constraint was zero dependencies. The constraint was the lesson.</p>
+        <div class="xlinks">
+          <a href="https://github.com/Evidence05/password-auditor" target="_blank" rel="noopener">Source &nearr;</a>
+        </div>
+      </article>
+
+      <article class="xcard rv">
+        <span class="xtag">Exhibit C-3 &middot; AI &middot; Hackathon</span>
+        <h3>Elenchus &mdash; AI Debate Coach</h3>
+        <p>Cambridge Oceania EduX Hackathon 2026, team of five. An agent on the Cogniti platform that teaches secondary students to catch logical fallacies in their own arguments through gamified challenges instead of passive reading.</p>
+        <p class="fp">&mdash; My part: the prompt architecture and the fallacy taxonomy the agent reasons with.</p>
+        <div class="xlinks">
+          <a href="https://cursor-rhythm-82670269.figma.site" target="_blank" rel="noopener">Project site &nearr;</a>
+        </div>
+      </article>
+
+      <article class="xcard sealed rv">
+        <span class="xtag">Exhibit C-4 &middot; Sealed</span>
+        <h3>Home Lab</h3>
+        <p>Kali, VirtualBox, deliberate mistakes in a contained blast radius. Contents withheld until they&rsquo;re worth showing. <button class="redact" type="button">Translation: it&rsquo;s a beautiful mess right now.</button></p>
+        <div class="xlinks"><span style="color:var(--graphite)">Unsealing: when it&rsquo;s ready</span></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ================= ANNEXE ================= -->
+  <section class="sec" id="annexe" aria-labelledby="hx">
+    <div class="sec-head">
+      <span class="exh">Annexe</span>
+      <h2 id="hx">Personal Effects</h2>
+      <span class="ref">REF: E05/X &middot; RELEVANCE CONTESTED</span>
+    </div>
+
+    <p class="mnote rv" aria-hidden="true">subject is, in fact, a person</p>
+    <p class="kicker">Recovered during a routine sweep of the subject&rsquo;s desk. Employment relevance: contested. Logged anyway &mdash; declassify at will.</p>
+
+    <div class="rv">
+      <div class="item">
+        <p class="item-no">Item 01</p>
+        <p>One 110 film camera. <button class="redact" type="button">Half-shot cartridge inside, &ldquo;almost finished&rdquo; for some weeks now. Yes, they still make the film.</button></p>
       </div>
-      <div class="project-card">
-        <div class="project-tag">// SECURITY TOOLING</div>
-        <h3>Python Password Audit Tool</h3>
-        <p>A Python-based tool for auditing password security — checking for weak patterns, common passwords, and policy compliance. Built to demonstrate practical scripting for defensive security workflows.</p>
-        <a href="https://github.com/Evidence05/password-auditor" class="project-link" target="_blank">View on GitHub</a>
+      <div class="item">
+        <p class="item-no">Item 02</p>
+        <p>Climbing chalk, located <button class="redact" type="button">on the keyboard, the desk, and one unexplained wall.</button></p>
       </div>
-      <div class="project-card" style="border-style: dashed; opacity: 0.75;">
-        <div class="project-tag">// HOME LAB · IN PROGRESS</div>
-        <h3>Home Lab Setup</h3>
-        <p>Setting up a local security lab with Kali Linux and VirtualBox to practice offensive and defensive techniques in a controlled environment. Documenting findings as I go.</p>
-        <span class="project-link" style="cursor: default; opacity: 0.5;">GitHub coming soon →</span>
+      <div class="item">
+        <p class="item-no">Item 03</p>
+        <p>One anime figure, positioned <button class="redact" type="button">with suspicious precision. There is a shelf of these. &ldquo;Collection,&rdquo; not &ldquo;clutter&rdquo; &mdash; he insists.</button></p>
       </div>
-      <div class="project-card" style="border-style: dashed; opacity: 0.75;">
-        <div class="project-tag">// AI · RAG · IN PROGRESS</div>
-        <h3>CourseBot — Local AI Study Assistant</h3>
-        <p>A fully local AI assistant built on a RAG architecture, ingesting UTS lecture notes and course content. Stack: Ollama for local LLM inference, LlamaIndex for document indexing, and ChromaDB as the vector store — no cloud dependencies or third-party APIs.</p>
-        <span class="project-link" style="cursor: default; opacity: 0.5;">GitHub coming soon →</span>
+      <div class="item">
+        <p class="item-no">Item 04</p>
+        <p>A 2026 calendar with <button class="redact" type="button">every F1 race weekend marked DO&nbsp;NOT&nbsp;SCHEDULE.</button></p>
+      </div>
+      <div class="item">
+        <p class="item-no">Item 05</p>
+        <p>A movie watchlist, growing <button class="redact" type="button">two titles for every one it loses. The backlog is structural at this point.</button></p>
+      </div>
+      <div class="item">
+        <p class="item-no">Item 06</p>
+        <p>Four certification syllabi, running <button class="redact" type="button">in parallel. The flashcards have their own flashcards.</button></p>
       </div>
     </div>
   </section>
 
-  <div class="divider"><hr></div>
+  <!-- ================= DISPOSITION ================= -->
+  <section class="sec" id="disposition" aria-labelledby="hz">
+    <div class="sec-head">
+      <span class="exh">Disposition</span>
+      <h2 id="hz">Add to This File</h2>
+      <span class="ref">REF: E05/Z &middot; CHANNELS MONITORED</span>
+    </div>
 
-  <section class="section" id="contact">
-    <div class="section-header">
-      <span class="section-num">03</span>
-      <h2>Contact</h2>
-      <div class="section-line"></div>
+    <p class="mnote rv" aria-hidden="true">replies fast outside race weekends</p>
+    <p class="kicker">File status: <span class="hl">active</span>. The subject graduates November 2026 and is taking graduate interviews now. If you run a SOC, a CTI desk or a cloud platform &mdash; or you&rsquo;d just like to dispute an ATT&amp;CK mapping &mdash; the channels below are monitored.</p>
+
+    <div class="crows rv">
+      <div class="crow">
+        <p class="clabel">Email</p>
+        <p><a href="mailto:alisadullapersonal@gmail.com">alisadullapersonal@gmail.com</a></p>
+      </div>
+      <div class="crow">
+        <p class="clabel">GitHub</p>
+        <p><a href="https://github.com/Evidence05" target="_blank" rel="noopener">github.com/Evidence05</a></p>
+      </div>
+      <div class="crow">
+        <p class="clabel">LinkedIn</p>
+        <p><a href="https://linkedin.com/in/ali-h-sadulla-a1332928a" target="_blank" rel="noopener">linkedin.com/in/ali-h-sadulla-a1332928a</a></p>
+      </div>
     </div>
-    <div class="contact-grid">
-      <a href="mailto:ahsadulla05@gmail.com" class="contact-card">
-        <div class="contact-icon">@</div>
-        <div class="contact-info">
-          <div class="contact-label">EMAIL</div>
-          <div class="contact-value">ahsadulla05@gmail.com</div>
-        </div>
-      </a>
-      <a href="https://github.com/Evidence05" target="_blank" class="contact-card">
-        <div class="contact-icon">&lt;/&gt;</div>
-        <div class="contact-info">
-          <div class="contact-label">GITHUB</div>
-          <div class="contact-value">github.com/Evidence05</div>
-        </div>
-      </a>
-      <a href="https://linkedin.com/in/ali-h-sadulla-a1332928a" target="_blank" class="contact-card">
-        <div class="contact-icon">in</div>
-        <div class="contact-info">
-          <div class="contact-label">LINKEDIN</div>
-          <div class="contact-value">linkedin.com/in/ali-h-sadulla-a1332928a</div>
-        </div>
-      </a>
-      <a href="https://www.uts.edu.au" target="_blank" class="contact-card">
-        <div class="contact-icon">★</div>
-        <div class="contact-info">
-          <div class="contact-label">UTS</div>
-          <div class="contact-value">University of Technology Sydney</div>
-        </div>
-      </a>
-    </div>
+
+    <a class="stampbtn rv" href="mailto:alisadullapersonal@gmail.com">Initiate contact &nearr;</a>
+
+    <p class="sign rv">Compiled by the subject, about the subject. He&rsquo;s aware of how that looks. It&rsquo;s accurate anyway. &mdash; E05</p>
   </section>
 
-  <footer>
-    <div class="footer-text">© 2026 Ali Sadulla — <span>Cybersecurity @ UTS</span></div>
-    <div class="footer-text">evidence05.github.io</div>
-  </footer>
+</main>
 
+<footer>
+  <div class="f-in">
+    <span>&copy; 2026 Ali Sadulla &middot; EVIDENCE//05</span>
+    <span>No trackers. No analytics. No cookies. This page doesn&rsquo;t watch you back.</span>
+    <span>Sydney, NSW</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* reveal-on-scroll + stamp impressions */
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.rv, .stamp').forEach(function(el){
+    if (reduce){ el.classList.add('in'); } else { io.observe(el); }
+  });
+
+  /* redactions — declassify on tap */
+  document.querySelectorAll('.redact').forEach(function(b){
+    b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', function(){
+      var open = b.classList.toggle('open');
+      b.setAttribute('aria-pressed', String(open));
+    });
+  });
+
+  /* capability matrix — provenance line */
+  var proof = document.getElementById('proofline');
+  if (proof){
+    document.querySelectorAll('.mcell').forEach(function(cell){
+      function show(){ proof.textContent = '\u25B8 ' + cell.getAttribute('data-proof'); }
+      cell.addEventListener('mouseenter', show);
+      cell.addEventListener('focus', show);
+      cell.addEventListener('click', function(){
+        document.querySelectorAll('.mcell.active').forEach(function(x){
+          if (x !== cell) x.classList.remove('active');
+        });
+        cell.classList.toggle('active');
+        show();
+      });
+    });
+  }
+
+  /* typewriter — earned, for once: the document is literally typewritten */
+  var t = document.getElementById('typeline');
+  if (t){
+    var el = document.createElement('span');
+    el.innerHTML = t.getAttribute('data-text');
+    var full = el.textContent;
+    if (reduce){
+      t.textContent = full;
+      t.classList.add('done');
+    } else {
+      var i = 0;
+      t.textContent = '';
+      (function tick(){
+        if (i <= full.length){
+          t.textContent = full.slice(0, i);
+          i++;
+          setTimeout(tick, 26);
+        } else {
+          t.classList.add('done');
+        }
+      })();
+    }
+  }
+
+  /* for the people who open the console. you know who you are. */
+  console.log(
+    '%c EVIDENCE//05 ',
+    'background:#B3331D;color:#EDE8DC;font-weight:bold;padding:3px 9px;',
+    '\nYou opened the console. Correct instinct.' +
+    '\nSource: https://github.com/Evidence05' +
+    '\nFile a finding: alisadullapersonal@gmail.com'
+  );
+})();
+</script>
 </body>
 </html>
